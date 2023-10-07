@@ -5,8 +5,9 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-22.04
-    permissions: read
-    security-events: write
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
