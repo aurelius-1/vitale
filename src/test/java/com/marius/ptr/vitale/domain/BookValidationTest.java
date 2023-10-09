@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BookValidationTest {
+class BookValidationTest {
 
     private static Validator validator;
 
@@ -24,7 +24,7 @@ public class BookValidationTest {
     @Test
     void whenAllFieldsCorrectThenValidationSucceeds() {
 
-        Book book = new Book("1234567890", "Title", "Author", 9.90);
+        Book book = Book.of("1234567890", "Title", "Author", 9.90);
 
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
 
@@ -33,7 +33,7 @@ public class BookValidationTest {
 
     @Test
     void whenIsbnIsSetButIncorrectThenValidationFails() {
-        Book book = new Book("a1234567890", "Title", "Author", 9.90);
+        Book book = Book.of("a1234567890", "Title", "Author", 9.90);
 
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
 
