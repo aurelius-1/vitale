@@ -24,7 +24,7 @@ class BookValidationTest {
     @Test
     void whenAllFieldsCorrectThenValidationSucceeds() {
 
-        Book book = Book.of("1234567890", "Title", "Author", 9.90);
+        Book book = Book.of("1234567890", "Title", "Author", 9.90, null);
 
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
 
@@ -33,7 +33,7 @@ class BookValidationTest {
 
     @Test
     void whenIsbnIsSetButIncorrectThenValidationFails() {
-        Book book = Book.of("a1234567890", "Title", "Author", 9.90);
+        Book book = Book.of("a1234567890", "Title", "Author", 9.90, null);
 
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
 

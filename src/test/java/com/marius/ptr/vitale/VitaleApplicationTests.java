@@ -21,7 +21,7 @@ class VitaleApplicationTests {
     @Test
     void whenPostRequestThenBookCreated() {
 
-        Book book = Book.of("1234567890", "Title", "Author", 9.90);
+        Book book = Book.of("1234567890", "Title", "Author", 9.90, null);
 
         webTestClient
                 .post()
