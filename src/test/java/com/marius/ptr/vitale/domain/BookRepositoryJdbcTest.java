@@ -29,7 +29,8 @@ public class BookRepositoryJdbcTest {
 
     @Test
     void findBookByIsbnWhenExisting() {
-        //jdbcAggregateTemplate.deleteAll(Book.class); for null publisher
+        jdbcAggregateTemplate.deleteAll(Book.class);
+
         var bookIsbn = "1234567890";
         var book = Book.of(bookIsbn, "Title","Author",12.90, "Polarsophia");
 
