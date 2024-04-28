@@ -1,6 +1,10 @@
 spring:
   application:
     name: vitale
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  main:
+    banner-mode: off
   config:
     import: "optional:configserver:"
   cloud:
@@ -17,9 +21,9 @@ spring:
 #        max-interval: 2000
 #        multiplier: 1.1
   datasource:
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: password
+    url: jdbc:postgresql://localhost:5432/polardb_catalog
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 5
@@ -38,6 +42,7 @@ server:
   tomcat:
     connection-timeout: 2s
     keep-alive-timeout: 15s
+  shutdown: graceful
 
 #polar:
 #  greeting: Welcome to the local book catalog!

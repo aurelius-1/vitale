@@ -13,12 +13,17 @@ java {
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 ext {
     set('springCloudVersion', "2022.0.4")
     set('testcontainersVersion', "1.17.3")
 }
+
+apply plugin: 'org.springframework.boot'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -50,6 +55,19 @@ tasks.named("bootBuildImage") {
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
+    }
+}
+
+bootBuildImage {
+    imageName ="${project.name}"
+    environment = ["BP_JVM_VERSION" : "17.*"]
+
+    docker {
+        publishRegistry {
+            username = project.findProperty("registryUsername")
+            password = project.findProperty("registryToken")
+            url = project.findProperty("registryUrl")
+        }
     }
 }
 
