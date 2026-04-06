@@ -1,0 +1,91 @@
+version: "3.8"
+
+services:
+  vitale:
+    depends_on:
+      - polar-postgres
+      - polar-minio
+    image: "vitale"
+    container_name: "vitale"
+    ports:
+      - 9001:9001
+      - 8001:8001
+    environment:
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8001
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://polar-postgres:5432/polardb_catalog
+      - SPRING_PROFILES_ACTIVE=testdata
+      - S3_ENDPOINT=http://polar-minio:9000
+  
+#  order-service:
+#    depends_on:
+#      - polar-postgres
+#    image: "order-service"
+#    container_name: "order-service"
+#    ports:
+#      - 9002:9002
+#      - 8002:8002
+#    environment:
+#      # Buildpacks environment variable to enable debug through a socket on port 8002
+#      - BPL_DEBUG_ENABLED=true
+#      - BPL_DEBUG_PORT=8002
+#      - POLAR_CATALOG_SERVICE_URI=http://catalog-service:9001
+#      - SPRING_R2DBC_URL=r2dbc:postgresql://polar-postgres:5432/polardb_order
+#      - SPRING_FLYWAY_URL=jdbc:postgresql://polar-postgres:5432/polardb_order
+
+
+  polar-postgres:
+    image: "postgres:14.4"
+    container_name: "polar-postgres"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-container
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
+    ports:
+      - "5050:80"
+    depends_on:
+      - polar-postgres
+
+  polar-redis:
+    image: "redis:7.0"
+    container_name: "polar-redis"
+    ports:
+      - 6379:6379
+
+  polar-rabbitmq:
+    image: rabbitmq:3.10-management
+    container_name: polar-rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+
+  polar-minio:
+    image: minio/minio:latest
+    container_name: polar-minio
+    ports:
+      - 9000:9000
+      - 9090:9090
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server /data --console-address ":9090"
+    volumes:
+      - polar-minio-data:/data
+
+volumes:
+  polar-minio-data:
+

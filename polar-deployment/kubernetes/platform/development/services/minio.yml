@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: polar-minio
+  labels:
+    app: polar-minio
+spec:
+  selector:
+    matchLabels:
+      app: polar-minio
+  template:
+    metadata:
+      labels:
+        app: polar-minio
+    spec:
+      containers:
+        - name: polar-minio
+          image: minio/minio:latest
+          args: ["server", "/data", "--console-address", ":9090"]
+          env:
+            - name: MINIO_ROOT_USER
+              value: minioadmin
+            - name: MINIO_ROOT_PASSWORD
+              value: minioadmin
+          ports:
+            - containerPort: 9000
+            - containerPort: 9090
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: polar-minio
+  labels:
+    app: polar-minio
+spec:
+  type: ClusterIP
+  selector:
+    app: polar-minio
+  ports:
+    - name: api
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+    - name: console
+      protocol: TCP
+      port: 9090
+      targetPort: 9090
