@@ -36,3 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 .mvn-node
+apr5.txt
+k8s.txt
+multideploy.txt
