@@ -16,7 +16,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-          cache: gradle
+          cache: maven
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
@@ -31,6 +31,4 @@ jobs:
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
       - name: Build, unit and integrations tests
-        run: |
-          chmod +x gradlew
-          ./gradlew build
+        run: mvn --batch-mode verify
