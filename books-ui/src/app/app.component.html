@@ -1,0 +1,60 @@
+<div class="container">
+  <h1>Books Catalog</h1>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <button (click)="openAdd()">+ Add Book</button>
+
+  <div class="form-card" *ngIf="showForm">
+    <h2>{{ editingIsbn ? 'Edit Book' : 'New Book' }}</h2>
+    <form (ngSubmit)="save()">
+      <label>ISBN
+        <input [(ngModel)]="form.isbn" name="isbn" required [disabled]="!!editingIsbn" />
+      </label>
+      <label>Title
+        <input [(ngModel)]="form.title" name="title" required />
+      </label>
+      <label>Author
+        <input [(ngModel)]="form.author" name="author" required />
+      </label>
+      <label>Price
+        <input [(ngModel)]="form.price" name="price" type="number" step="0.01" required />
+      </label>
+      <label>Publisher
+        <input [(ngModel)]="form.publisher" name="publisher" />
+      </label>
+      <div class="form-actions">
+        <button type="submit">Save</button>
+        <button type="button" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <table *ngIf="books.length > 0">
+    <thead>
+      <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th>Publisher</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of books">
+        <td>{{ book.isbn }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.price | currency }}</td>
+        <td>{{ book.publisher }}</td>
+        <td class="actions">
+          <button (click)="openEdit(book)">Edit</button>
+          <button class="danger" (click)="delete(book.isbn)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="books.length === 0 && !error">No books found.</p>
+</div>
