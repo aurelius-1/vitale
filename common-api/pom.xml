@@ -11,8 +11,6 @@
 
     <artifactId>common-api</artifactId>
 
-
-
     <dependencies>
         <dependency>
             <groupId>com.nimbusds</groupId>

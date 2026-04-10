@@ -71,5 +71,13 @@ s3:
     name: vitale-bucket
     processed-name: vitale-bucket-processed
 
+app:
+  truststore:
+    path: classpath:truststore.p12
+    password: changeit
+    alias: signature-key
+
+
+
 #polar:
 #  greeting: Welcome to the local book catalog!
