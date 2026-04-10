@@ -23,6 +23,7 @@
         <module>dispatcher-service</module>
         <module>polar-deployment</module>
         <module>books-ui</module>
+        <module>common-api</module>
     </modules>
 
     <properties>
