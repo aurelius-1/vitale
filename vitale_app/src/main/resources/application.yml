@@ -69,6 +69,7 @@ s3:
   region: us-east-1
   bucket:
     name: vitale-bucket
+    processed-name: vitale-bucket-processed
 
 #polar:
 #  greeting: Welcome to the local book catalog!

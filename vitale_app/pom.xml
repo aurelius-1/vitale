@@ -94,6 +94,11 @@
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-aws2-s3-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.marius.ptr</groupId>
+            <artifactId>common-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
