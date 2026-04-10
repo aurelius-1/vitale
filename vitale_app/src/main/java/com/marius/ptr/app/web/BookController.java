@@ -4,6 +4,7 @@ import com.marius.ptr.app.domain.Book;
 import com.marius.ptr.app.domain.BookService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/books")
@@ -49,5 +52,15 @@ public class BookController {
     @PutMapping("{isbn}")
     public Book put(@PathVariable String isbn, @Valid @RequestBody Book book) {
         return bookService.editBookDetails(isbn, book);
+    }
+
+    @PostMapping("/{data}")
+    public ResponseEntity<Map<String, String>> test(@PathVariable String data,
+                                                    @RequestBody Map<String, String> body) {
+        return ResponseEntity.ok(Map.of(
+                "pathVariable", data,
+                "body", body.toString(),
+                "status", "signature valid"
+        ));
     }
 }
