@@ -3,7 +3,7 @@ server:
     idle-timeout: 15s
     connection-timeout: 2s
   shutdown: graceful
-  port: 9000
+  port: 9080
 
 spring:
   session:

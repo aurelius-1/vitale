@@ -17,7 +17,39 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://polar-postgres:5432/polardb_catalog
       - SPRING_PROFILES_ACTIVE=testdata
       - S3_ENDPOINT=http://polar-minio:9000
-  
+
+  edge-service:
+    profiles: ["full"]
+    depends_on:
+      - polar-redis
+      - vitale
+    image: "edge-service"
+    container_name: "edge-service"
+    ports:
+      - 9080:9080
+      - 8000:8000
+    environment:
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8000
+      - SPRING_DATA_REDIS_HOST=polar-redis
+      - CATALOG_SERVICE_URL=http://vitale:9001
+      - ORDER_SERVICE_URL=http://order-service:9002
+
+  dispatcher-service:
+    profiles: ["full"]
+    depends_on:
+      - polar-rabbitmq
+    image: "dispatcher-service"
+    container_name: "dispatcher-service"
+    ports:
+      - 9003:9003
+    environment:
+      - SPRING_RABBITMQ_HOST=polar-rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=user
+      - SPRING_RABBITMQ_PASSWORD=password
+
 #  order-service:
 #    depends_on:
 #      - polar-postgres
@@ -74,7 +106,7 @@ services:
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
 
   polar-minio:
-    image: minio/minio:latest
+    image: quay.io/minio/minio:latest
     container_name: polar-minio
     ports:
       - 9000:9000
