@@ -25,7 +25,7 @@ custom_build(
     deps=['edge-service/src', 'edge-service/pom.xml']
 )
 k8s_yaml(['edge-service/k8s/deployment.yml', 'edge-service/k8s/service.yml', 'edge-service/k8s/ingress.yml'])
-k8s_resource('edge-service', port_forwards=['9005:9000'])
+k8s_resource('edge-service', port_forwards=['9005:9080'])
 
 # books-ui (Angular frontend)
 custom_build(

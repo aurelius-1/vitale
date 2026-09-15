@@ -1,4 +1,4 @@
-package com.marius.ptr.vitale.config;
+package com.marius.ptr.app.config;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
